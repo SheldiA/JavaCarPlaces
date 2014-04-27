@@ -12,17 +12,33 @@ import java.util.ArrayList;
  *
  * @author Anna
  */
-public class QueueOfCars {
+public class QueueOfCars extends Thread {
     private ArrayList<Car> cars = null;
     public QueueOfCars(){
         cars = new ArrayList<Car>();
+    }
+    
+    public void run(){
+        while(null != cars){
+            for(int i = 0; i < cars.size(); ++i){
+                long timeGone = System.currentTimeMillis() - cars.get(i).getStartTime();
+                if(timeGone > cars.get(i).getWaitingTime()*1000){
+                    cars.remove(i);
+                    --i;
+                }
+            }
+        }
     }
     
     public ArrayList<Car> getCars(){
         return cars;
     }
     
-    public void addCar(Car newCar){
-        cars.add(newCar);
+    public void setCars(ArrayList<Car> cars){
+        this.cars = cars;
+    }
+    
+    public boolean addCar(Car newCar){
+        return cars.add(newCar);
     }
 }

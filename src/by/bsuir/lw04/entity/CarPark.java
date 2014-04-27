@@ -12,12 +12,21 @@ import java.util.ArrayList;
  *
  * @author Anna
  */
-public class CarPark {
+public class CarPark extends Thread{
     private ArrayList<CarPlace> carPlaces;
-    public CarPark(int placeNumber){
+    private QueueOfCars waitingCars;
+    
+    public CarPark(int placeNumber,QueueOfCars queue){
         carPlaces = new ArrayList<CarPlace>();
         for(int i = 0; i < placeNumber; ++i)
             carPlaces.add(new CarPlace());
+        waitingCars = queue;
+    }
+    
+    public void run(){
+        while(null != waitingCars){
+            
+        }
     }
     
     public ArrayList<CarPlace> getCarPlaces(){
