@@ -4,8 +4,9 @@
  * and open the template in the editor.
  */
 
-package by.bsuir.lw04.entity;
+package by.bsuir.lw04.entitysecond;
 
+import by.bsuir.lw04.entitysecond.*;
 import java.util.ArrayList;
 
 /**
