@@ -6,20 +6,18 @@
 
 package by.bsuir.lw04.entitysecond;
 
-import by.bsuir.lw04.entitysecond.*;
-
 /**
  *
  * @author Anna
  */
-public class CarPlace {
+public class CarPlace2 {
     private boolean free = true;
 
     public boolean isFree(){
         return free;
     }
     
-    public synchronized void setFree(boolean isFree){
+    public void setFree(boolean isFree){
         free = isFree;
     }
 }

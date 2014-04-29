@@ -6,19 +6,21 @@
 
 package by.bsuir.lw04.entitysecond;
 
-import by.bsuir.lw04.entitysecond.*;
+import static java.lang.Thread.sleep;
+import java.util.Calendar;
+import java.util.Date;
 
 /**
  *
  * @author Anna
  */
-public class Car extends Thread{
+public class Car2 extends Thread{
     private int waitingTime;
     private long startTime;
-    private CarPlace carPlace;
-    private CarPark carPark;
+    private CarPlace2 carPlace;
+    private CarPark2 carPark;
     
-    public Car(int time,CarPark carPark){
+    public Car2(int time,CarPark2 carPark){
         waitingTime = time;
         this.carPark = carPark;
         startTime = System.currentTimeMillis();
@@ -27,12 +29,12 @@ public class Car extends Thread{
     public void run(){
         carPark.addToQueue(this);
         long timeSpan = System.currentTimeMillis() - startTime;
-        while(carPlace != null && timeSpan < waitingTime){
+        while(carPlace == null && timeSpan < waitingTime*1000){
             try{
                 sleep(1000);
             }
             catch(InterruptedException e){
-                
+                e.printStackTrace();
             }
             timeSpan = System.currentTimeMillis() - startTime;
         }
@@ -47,25 +49,25 @@ public class Car extends Thread{
         return startTime;
     }
     
-    public CarPlace getCarPlace(){
+    public CarPlace2 getCarPlace(){
         return carPlace;
     }
     
-    public void setCarPlace(CarPlace carPlace){
+    public void setCarPlace(CarPlace2 carPlace){
         this.carPlace = carPlace;
     }
     
     public void useCarPlace(){
         if(null != carPlace){
             try{
-                sleep(10000);
+                sleep(1000);
                 System.out.println("finish using car with time "+getWaitingTime());
             }
             catch(InterruptedException e){
-                
+                e.printStackTrace();
             }
             
-            carPlace.setFree(true);
+            carPark.returnCarPlace(carPlace);
         }
         else
             System.out.println("null car place for car with time "+getWaitingTime());

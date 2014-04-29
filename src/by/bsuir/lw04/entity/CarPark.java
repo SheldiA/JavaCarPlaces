@@ -72,9 +72,10 @@ public class CarPark extends Thread{
     
     public void returnCarPlace(CarPlace carPlace){
         synchronized(carPlaces){
-            if(null!= carPlace && null != carPlaces)
+            if(null!= carPlace && null != carPlaces){
                 System.out.println("free car places");
                 carPlaces.get(carPlaces.indexOf(carPlace)).setFree(true);
+            }
         }
     }
     
