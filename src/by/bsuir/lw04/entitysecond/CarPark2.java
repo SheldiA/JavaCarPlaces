@@ -6,6 +6,7 @@
 
 package by.bsuir.lw04.entitysecond;
 
+import by.bsuir.lw04.constant.ThreadConstant;
 import java.util.ArrayList;
 import java.util.concurrent.Semaphore;
 import java.util.logging.Level;
@@ -60,6 +61,16 @@ public class CarPark2 extends Thread{
         return carPlaces;
     }
     
+    public void close(){
+        while(waitingCars.size() != 0)
+            try {
+                sleep(ThreadConstant.WAITING_MS_IN_CLOSING_CAR_PARK);
+            } catch (InterruptedException ex) {
+                Logger.getLogger(CarPark2.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        waitingCars = null;
+    }
+    
     public void addToQueue(Car2 car){
         if(car.getCarPlace() == null){
             try{
@@ -80,7 +91,6 @@ public class CarPark2 extends Thread{
             for(CarPlace2 place:carPlaces){
                 if(place.isFree()){
                     place.setFree(false);
-                    System.out.println("busy car places");
                     return place;
                 }                
             }
@@ -96,7 +106,6 @@ public class CarPark2 extends Thread{
         try {
             carPlacesSemaphore.acquire();
             if(null!= carPlace && null != carPlaces){
-                System.out.println("free car places");
                 carPlaces.get(carPlaces.indexOf(carPlace)).setFree(true);
             }
         } catch (InterruptedException ex) {

@@ -6,6 +6,7 @@
 
 package by.bsuir.lw04.entity;
 
+import by.bsuir.lw04.constant.ThreadConstant;
 import java.util.Calendar;
 import java.util.Date;
 
@@ -30,10 +31,10 @@ public class Car extends Thread{
         long timeSpan = System.currentTimeMillis() - startTime;
         while(carPlace == null && timeSpan < waitingTime*1000){
             try{
-                sleep(1000);
+                sleep(ThreadConstant.WAITING_MS_IN_WAITING_CAR_PLACE);
             }
             catch(InterruptedException e){
-                
+                e.printStackTrace();
             }
             timeSpan = System.currentTimeMillis() - startTime;
         }
@@ -59,11 +60,11 @@ public class Car extends Thread{
     public void useCarPlace(){
         if(null != carPlace){
             try{
-                sleep(1000);
+                sleep(ThreadConstant.WAITING_MS_IN_USING_CAR);
                 System.out.println("finish using car with time "+getWaitingTime());
             }
             catch(InterruptedException e){
-                
+                e.printStackTrace();
             }
             
             carPark.returnCarPlace(carPlace);

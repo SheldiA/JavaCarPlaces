@@ -6,7 +6,10 @@
 
 package by.bsuir.lw04.entity;
 
+import by.bsuir.lw04.constant.ThreadConstant;
 import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
@@ -44,6 +47,16 @@ public class CarPark extends Thread{
         }
     }
     
+    public void close(){
+        while(waitingCars.size() != 0)
+            try {
+                sleep(ThreadConstant.WAITING_MS_IN_CLOSING_CAR_PARK);
+            } catch (InterruptedException ex) {
+                Logger.getLogger(CarPark.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        waitingCars = null;
+    }
+    
     public ArrayList<CarPlace> getCarPlaces(){
         return carPlaces;
     }
@@ -62,7 +75,6 @@ public class CarPark extends Thread{
             for(CarPlace place:carPlaces){
                 if(place.isFree()){
                     place.setFree(false);
-                    System.out.println("busy car places");
                     return place;
                 }                
             }
@@ -73,7 +85,6 @@ public class CarPark extends Thread{
     public void returnCarPlace(CarPlace carPlace){
         synchronized(carPlaces){
             if(null!= carPlace && null != carPlaces){
-                System.out.println("free car places");
                 carPlaces.get(carPlaces.indexOf(carPlace)).setFree(true);
             }
         }
