@@ -59,6 +59,7 @@ public class Car extends Thread{
         if(null != carPlace){
             try{
                 sleep(10000);
+                System.out.println("finish using car with time "+getWaitingTime());
             }
             catch(InterruptedException e){
                 
@@ -66,5 +67,7 @@ public class Car extends Thread{
             
             carPlace.setFree(true);
         }
+        else
+            System.out.println("null car place for car with time "+getWaitingTime());
     }
 }

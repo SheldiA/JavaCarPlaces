@@ -17,7 +17,7 @@ public class CarPlace {
         return free;
     }
     
-    public synchronized void setFree(boolean isFree){
+    public void setFree(boolean isFree){
         free = isFree;
     }
 }

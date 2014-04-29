@@ -32,7 +32,9 @@ public class CarPark extends Thread{
                     Car currCar = null;
                     synchronized(waitingCars){
                         currCar = waitingCars.get(0);
+                        System.out.println("handle car with time "+currCar.getWaitingTime());
                         waitingCars.remove(0);
+                        System.out.println("delete from queue car with time "+currCar.getWaitingTime());
                     }
                     if(null != currCar)
                         currCar.setCarPlace(carPlace);
@@ -50,6 +52,7 @@ public class CarPark extends Thread{
         if(car.getCarPlace() == null){
             synchronized(waitingCars){
                 waitingCars.add(car);
+                System.out.println("add to queue car with time "+car.getWaitingTime());
             }
         }
     }

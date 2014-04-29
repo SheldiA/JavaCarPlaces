@@ -29,12 +29,15 @@ public class CarPark extends Thread{
                 CarPlace carPlace = getFreeCarPlace();
                 if(carPlace != null){
                     Car currCar = null;
-                    synchronized(waitingCars){
+                    synchronized(waitingCars){                        
                         currCar = waitingCars.get(0);
+                        System.out.println("handle car with time "+currCar.getWaitingTime());
                         waitingCars.remove(0);
+                        System.out.println("delete from queue car with time "+currCar.getWaitingTime());
                     }
                     if(null != currCar)
                         currCar.setCarPlace(carPlace);
+                    
                 }           
                 
             }
@@ -49,18 +52,30 @@ public class CarPark extends Thread{
         if(car.getCarPlace() == null){
             synchronized(waitingCars){
                 waitingCars.add(car);
+                System.out.println("add to queue car with time "+car.getWaitingTime());
             }
         }
     }
     
-    public synchronized CarPlace getFreeCarPlace(){
-        for(CarPlace place:carPlaces){
-            if(place.isFree()){
-                place.setFree(false);
-                return place;
-            }                
+    public CarPlace getFreeCarPlace(){
+        synchronized(carPlaces){
+            for(CarPlace place:carPlaces){
+                if(place.isFree()){
+                    place.setFree(false);
+                    System.out.println("busy car places");
+                    return place;
+                }                
+            }
         }
         return null;                    
+    }
+    
+    public void returnCarPlace(CarPlace carPlace){
+        synchronized(carPlaces){
+            if(null!= carPlace && null != carPlaces)
+                System.out.println("free car places");
+                carPlaces.get(carPlaces.indexOf(carPlace)).setFree(true);
+        }
     }
     
 }

@@ -28,7 +28,7 @@ public class Car extends Thread{
     public void run(){
         carPark.addToQueue(this);
         long timeSpan = System.currentTimeMillis() - startTime;
-        while(carPlace != null && timeSpan < waitingTime){
+        while(carPlace == null && timeSpan < waitingTime*1000){
             try{
                 sleep(1000);
             }
@@ -59,13 +59,16 @@ public class Car extends Thread{
     public void useCarPlace(){
         if(null != carPlace){
             try{
-                sleep(10000);
+                sleep(1000);
+                System.out.println("finish using car with time "+getWaitingTime());
             }
             catch(InterruptedException e){
                 
             }
             
-            carPlace.setFree(true);
+            carPark.returnCarPlace(carPlace);
         }
+        else
+            System.out.println("null car place for car with time "+getWaitingTime());
     }
 }
